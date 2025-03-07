@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import connectDB from "../database/db";
 import Movie from "../models/movie";
-import { defaultMaxListeners } from "events";
 
 dotenv.config();
 connectDB();
