@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { hashSync } from "bcrypt";
 
 const userSchema = new Schema(
   {
@@ -21,5 +22,15 @@ const userSchema = new Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre("save", function (next) {
+  if (this.isModified("password")) {
+    const hashedPassword = hashSync(this.password, 12);
+    this.password = hashedPassword;
+    next();
+  }
+
+  next();
+});
 
 export const User = model("User", userSchema);
