@@ -3,4 +3,4 @@ import { createUser } from "../controllers/auth";
 
 export const router = Router();
 
-router.post("/users", createUser);
+router.post("/auth/signup", createUser);
