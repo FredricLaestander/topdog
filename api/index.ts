@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import connectDB from "../database/db";
 import Movie from "../models/movie";
 
@@ -10,6 +11,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(
+  cors({
+    origin: [process.env.CLIENT_URL!],
+  })
+);
 
 app.get("/", async (req: Request, res: Response) => {
   const data = await Movie.find({}).select("title plot runtime year").limit(5);
