@@ -1,14 +1,12 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "../database/db";
-import Movie from "../models/movie";
+import { connectDB } from "../database/db";
+import { router } from "./routes";
 
 dotenv.config();
-connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(
@@ -16,15 +14,14 @@ app.use(
     origin: [process.env.CLIENT_URL!],
   })
 );
+app.use(router);
 
-app.get("/", async (req: Request, res: Response) => {
-  const data = await Movie.find({}).select("title plot runtime year").limit(5);
-  console.log(data);
-  res.json({ message: "This is a backend application" });
-});
+connectDB().then(() => {
+  const port = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Application is running at http://localhost:${PORT}`);
+  app.listen(port, () => {
+    console.log(`Application is running at http://localhost:${port}`);
+  });
 });
 
 export default app;
