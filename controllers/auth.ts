@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 import { User } from "../models/user";
 
@@ -34,5 +36,40 @@ export async function createUser(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json("Something went wrong when trying to create a user");
+  }
+}
+
+export async function login(req: Request, res: Response) {
+  try {
+    const loginSchema = z.object({
+      username: z.string(),
+      password: z.string(),
+    });
+
+    const { success, data, error } = loginSchema.safeParse(req.body);
+
+    if (!success) {
+      res.status(400).json(error.format());
+      return;
+    }
+
+    const user = await User.findOne({ username: data.username }, "+password");
+
+    if (!user || !(await bcrypt.compare(data.password, user.password))) {
+      res.status(400).json("Wrong username or password");
+      return;
+    }
+
+    const accessToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "1h",
+      }
+    );
+    res.status(200).json({ accessToken });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Something went wrong when trying to log in");
   }
 }
