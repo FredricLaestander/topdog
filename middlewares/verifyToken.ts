@@ -2,9 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user";
+import { AuthenticatedRequest } from "../types";
 
 export async function verifyToken(
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
 ) {
@@ -33,7 +34,7 @@ export async function verifyToken(
       return;
     }
 
-    req.body.userId = data.userId;
+    req.userId = data.userId;
     next();
   } catch (error) {
     console.log(error);
