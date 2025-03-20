@@ -16,7 +16,9 @@ export const tierSchema = new Schema(
       required: true,
       default: "#525252",
     },
-    images: [imageSchema],
+    images: {
+      type: [imageSchema],
+    },
   },
   { timestamps: true }
 );

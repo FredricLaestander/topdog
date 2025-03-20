@@ -2,10 +2,9 @@ import { Schema } from "mongoose";
 
 export const imageSchema = new Schema(
   {
-    name: {
+    path: {
       type: String,
       required: true,
-      unique: true,
     },
   },
   {
