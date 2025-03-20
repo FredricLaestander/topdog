@@ -2,10 +2,11 @@ import { Schema } from "mongoose";
 
 export const imageSchema = new Schema(
   {
-    name: {
+    urlpath: {
       type: String,
       required: true,
-      unique: true,
+      default: "/images/defaultimage.png",
+      // unique: true,
     },
   },
   {
