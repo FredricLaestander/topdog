@@ -26,31 +26,26 @@ export async function createTierList(req: AuthenticatedRequest, res: Response) {
           name: "S",
           color: "#e68683",
           order: 1,
-          images: [{}],
         },
         {
           name: "A",
           color: "#efc189",
           order: 2,
-          images: [{}],
         },
         {
           name: "B",
           color: "#f5df8d",
           order: 3,
-          images: [{}],
         },
         {
           name: "C",
           color: "#fcfe92",
           order: 4,
-          images: [{}],
         },
         {
           name: "D",
           color: "#cffc90",
           order: 5,
-          images: [{}],
         },
       ],
     });
