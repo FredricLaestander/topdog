@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import { string, z } from "zod";
+import { z } from "zod";
 import { TierList } from "../models/tierlist";
 import { AuthenticatedRequest } from "../types";
+import { Types } from "mongoose";
 
-export async function createTierList(req: AuthenticatedRequest, res: Response) {
+export async function createList(req: AuthenticatedRequest, res: Response) {
   try {
     const userId = req.userId!;
 
@@ -56,5 +57,26 @@ export async function createTierList(req: AuthenticatedRequest, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json("Something went wrong when trying to create a list");
+  }
+}
+
+export async function getListById(req: Request, res: Response) {
+  try {
+    if (!Types.ObjectId.isValid(req.params.id)) {
+      res.status(400).json("Id is not valid");
+      return;
+    }
+
+    const list = await TierList.findById(req.params.id);
+
+    if (!list) {
+      res.status(404).json("The list was not found");
+      return;
+    }
+
+    res.status(200).json(list);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Something went wrong when trying to open a list");
   }
 }
