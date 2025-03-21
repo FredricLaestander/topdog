@@ -3,7 +3,7 @@ import { string, z } from "zod";
 import { TierList } from "../models/tierlist";
 import { AuthenticatedRequest } from "../types";
 
-export async function createTierList(req: AuthenticatedRequest, res: Response) {
+export async function createList(req: AuthenticatedRequest, res: Response) {
   try {
     const userId = req.userId!;
 
