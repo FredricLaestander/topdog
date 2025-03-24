@@ -13,7 +13,6 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
     });
 
     const { success, data, error } = createTierListSchema.safeParse(req.body);
-
     if (!success) {
       res.status(400).json(error.format());
       return;
@@ -111,5 +110,22 @@ export async function updateList(req: AuthenticatedRequest, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json("Something went wrong when trying to open a list");
+  }
+}
+
+export async function deleteList(req: AuthenticatedRequest, res: Response) {
+  try {
+    if (!Types.ObjectId.isValid(req.params.id)) {
+      res.status(400).json("Id is not valid");
+      return;
+    }
+
+    const deletedList = await TierList.findByIdAndDelete(req.params.id);
+    res
+      .status(200)
+      .json(`Tier list '${deletedList?.name}' was successfully deleted.`);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Something went wrong when trying to delete a list");
   }
 }
