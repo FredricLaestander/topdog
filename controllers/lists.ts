@@ -13,6 +13,7 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
     });
 
     const { success, data, error } = createTierListSchema.safeParse(req.body);
+
     if (!success) {
       res.status(400).json(error.format());
       return;
