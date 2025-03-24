@@ -80,3 +80,36 @@ export async function getListById(req: Request, res: Response) {
     res.status(500).json("Something went wrong when trying to open a list");
   }
 }
+
+export async function updateList(req: AuthenticatedRequest, res: Response) {
+  try {
+    if (!Types.ObjectId.isValid(req.params.id)) {
+      res.status(400).json("Id is not valid");
+      return;
+    }
+
+    const updateTierListSchema = z.object({
+      name: z.string().min(1).max(30),
+    });
+
+    const { success, data, error } = updateTierListSchema.safeParse(req.body);
+
+    if (!success) {
+      res.status(400).json(error.format());
+      return;
+    }
+
+    const updateTierList = await TierList.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: data.name,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updateTierList);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Something went wrong when trying to open a list");
+  }
+}
