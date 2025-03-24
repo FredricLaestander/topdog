@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { createUser, login } from "../controllers/auth";
-import { createList, getListById, updateList } from "../controllers/lists";
+import {
+  createList,
+  deleteList,
+  getListById,
+  updateList,
+} from "../controllers/lists";
 import { verifyToken } from "../middlewares/verifyToken";
 import { verifyOwner } from "../middlewares/verifyOwner";
 
@@ -12,3 +17,4 @@ router.post("/auth/login", login);
 router.post("/lists", verifyToken, createList);
 router.get("/lists/:id", getListById);
 router.put("/lists/:id", verifyToken, verifyOwner, updateList);
+router.delete("/lists/:id", verifyToken, verifyOwner, deleteList);

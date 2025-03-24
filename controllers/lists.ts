@@ -113,3 +113,20 @@ export async function updateList(req: AuthenticatedRequest, res: Response) {
     res.status(500).json("Something went wrong when trying to open a list");
   }
 }
+
+export async function deleteList(req: AuthenticatedRequest, res: Response) {
+  try {
+    if (!Types.ObjectId.isValid(req.params.id)) {
+      res.status(400).json("Id is not valid");
+      return;
+    }
+
+    const deletedList = await TierList.findByIdAndDelete(req.params.id);
+    res
+      .status(200)
+      .json(`Tier list '${deletedList?.name}' was successfully deleted.`);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Something went wrong when trying to delete a list");
+  }
+}
