@@ -4,6 +4,16 @@
 
 The **TopDog API** is a RESTful API for managing tier lists. It allows users to create accounts, log in, and manage tier lists with customizable tiers. This documentation provides details about the available endpoints, their usage, example requests, responses, and error messages.
 
+## Getting started
+
+- Create `.env` file based on `.env.example`
+- Start docker container with local MongoDB
+  - `docker compose up -d`
+- Install dependencies
+  - `npm install`
+- Start development server
+  - `npm run dev`
+
 ---
 
 ## Base URLs
