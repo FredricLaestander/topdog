@@ -60,6 +60,30 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
   }
 }
 
+export async function getAllLists(req: Request, res: Response) {
+  try {
+    const querySchema = z.object({
+      limit: z.coerce.number().min(1).optional(),
+    });
+
+    const { success, data, error } = querySchema.safeParse(req.query);
+
+    if (!success) {
+      res.status(400).json(error.format());
+      return;
+    }
+
+    const limit = data.limit || 5;
+
+    const lists = await TierList.find().limit(limit);
+
+    res.status(201).json(lists);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Something went wrong when trying to show all lists");
+  }
+}
+
 export async function getListById(req: Request, res: Response) {
   try {
     if (!Types.ObjectId.isValid(req.params.id)) {
