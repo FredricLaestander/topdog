@@ -8,7 +8,7 @@ import {
 } from "../controllers/lists";
 import { verifyToken } from "../middlewares/verifyToken";
 import { verifyOwner } from "../middlewares/verifyOwner";
-import { createTier } from "../controllers/tiers";
+import { createTier, updateTier } from "../controllers/tiers";
 
 export const router = Router();
 
@@ -21,3 +21,4 @@ router.put("/lists/:id", verifyToken, verifyOwner, updateList);
 router.delete("/lists/:id", verifyToken, verifyOwner, deleteList);
 
 router.post("/lists/:id/tiers", verifyToken, verifyOwner, createTier);
+router.put("/lists/:id/tiers/:tierId", verifyToken, verifyOwner, updateTier);
