@@ -138,7 +138,7 @@ curl -X POST https://top-dog-psi.vercel.app/auth/login \
 ##### Request headers
 
 ```json
-Authorization: Bearer <access_token>`
+Authorization: Bearer <access_token>
 ```
 
 ##### Request body
@@ -250,7 +250,7 @@ curl -X GET https://top-dog-psi.vercel.app/lists/tierListId
 ##### Request headers
 
 ```json
-Authorization: Bearer <access_token>`
+Authorization: Bearer <access_token>
 ```
 
 ##### Example cURL
@@ -297,7 +297,7 @@ curl -X PUT https://https://top-dog-psi.vercel.app/lists/tierListId \
 ##### Request headers
 
 ```json
-Authorization: Bearer <access_token>`
+Authorization: Bearer <access_token>
 ```
 
 ##### Example cURL
@@ -329,7 +329,7 @@ curl -X DELETE https://https://top-dog-psi.vercel.app/lists/tierListId \
 ##### Request headers
 
 ```json
-Authorization: Bearer <access_token>`
+Authorization: Bearer <access_token>
 ```
 
 ##### Request body
