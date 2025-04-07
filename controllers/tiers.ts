@@ -3,6 +3,7 @@ import { z } from "zod";
 import { TierList } from "../models/tierlist";
 import { AuthenticatedRequest } from "../types";
 import { Types } from "mongoose";
+import { log } from "console";
 
 export async function createTier(req: AuthenticatedRequest, res: Response) {
   try {
@@ -86,6 +87,8 @@ export async function updateTier(req: AuthenticatedRequest, res: Response) {
     (tier) => tier._id.toString() === req.params.tierId
   );
 
+  console.log("tier fetched: ", tier?.name, tier?.order);
+
   if (!tier) {
     res.status(400).json("Tier was not found");
     return;
@@ -94,6 +97,7 @@ export async function updateTier(req: AuthenticatedRequest, res: Response) {
   console.log({
     oldListTiers: list.tiers.map((tier) => ({
       order: tier.order,
+      name: tier.name,
       id: tier._id,
     })),
   });
@@ -108,26 +112,46 @@ export async function updateTier(req: AuthenticatedRequest, res: Response) {
     console.log({ oldOrder, newOrder, direction });
 
     list.tiers.forEach((tier) => {
+      console.log("running calculation");
       if (direction === "ascending") {
+        console.log("tier order asc: ", tier.order);
         if (tier.order > oldOrder && tier.order <= newOrder) {
           tier.order -= 1;
+        } else {
+          console.log("Calc didnt work");
+        }
+      } else if (direction === "descending") {
+        console.log("tier order desc: ", tier.order);
+        if (
+          (tier.order < newOrder && tier.order != 1) ||
+          (tier.order === newOrder && newOrder != 1)
+        ) {
+          console.log(
+            `om ${tier.order} är mindre än ${newOrder} och ${tier.order} inte är 1 eller ${tier.order} är samma som ${newOrder} och ${newOrder} inte är 1, ta bort 1`
+          );
+          tier.order -= 1;
+        } else if (tier.order > newOrder) {
+          console.log(`om ${tier.order} är större än ${newOrder} ta bort 1`);
+          console.log(`${tier.order} är större än ${newOrder}. Gör ingenting.`);
+        } else {
+          console.log("Atlest we tried");
         }
       } else {
-        if (tier.order < oldOrder && tier.order >= newOrder) {
-          tier.order += 1;
-        }
+        console.log("didnt work");
       }
     });
 
     tier.order = newOrder;
+    console.log("updated tier: ", tier.name, tier.order);
   }
 
   // Sort tiers in descending order
-  list.tiers.sort((a, b) => b.order - a.order);
+  list.tiers.sort((a, b) => a.order - b.order);
 
   console.log({
     newListTiers: list.tiers.map((tier) => ({
       order: tier.order,
+      name: tier.name,
       id: tier._id,
     })),
   });
