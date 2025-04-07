@@ -3,7 +3,6 @@ import { z } from "zod";
 import { TierList } from "../models/tierlist";
 import { AuthenticatedRequest } from "../types";
 import { Types } from "mongoose";
-import { log } from "console";
 
 export async function createTier(req: AuthenticatedRequest, res: Response) {
   try {
