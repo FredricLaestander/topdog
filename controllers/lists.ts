@@ -77,7 +77,7 @@ export async function getAllLists(req: Request, res: Response) {
 
     const lists = await TierList.find().limit(limit);
 
-    res.status(201).json(lists);
+    res.status(200).json(lists);
   } catch (error) {
     console.log(error);
     res.status(500).json("Something went wrong when trying to show all lists");
