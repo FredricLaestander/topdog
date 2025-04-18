@@ -25,7 +25,9 @@ export async function createUser(req: Request, res: Response) {
         $or: [{ username: data.username }, { email: data.email }],
       })
     ) {
-      res.status(400).json("Username or email has already been taken");
+      res
+        .status(400)
+        .json({ errorMessage: "Username or email has already been taken" });
       return;
     }
 
@@ -35,14 +37,16 @@ export async function createUser(req: Request, res: Response) {
     res.status(201).json(`User ${newUser.username} created`);
   } catch (error) {
     console.log(error);
-    res.status(500).json("Something went wrong when trying to create a user");
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to create a user",
+    });
   }
 }
 
 export async function login(req: Request, res: Response) {
   try {
     const loginSchema = z.object({
-      username: z.string(),
+      email: z.string(),
       password: z.string(),
     });
 
@@ -53,10 +57,10 @@ export async function login(req: Request, res: Response) {
       return;
     }
 
-    const user = await User.findOne({ username: data.username }, "+password");
+    const user = await User.findOne({ email: data.email }, "+password");
 
     if (!user || !(await bcrypt.compare(data.password, user.password))) {
-      res.status(400).json("Wrong username or password");
+      res.status(400).json({ errorMessage: "Wrong email or password" });
       return;
     }
 
@@ -70,6 +74,8 @@ export async function login(req: Request, res: Response) {
     res.status(200).json({ accessToken });
   } catch (error) {
     console.log(error);
-    res.status(500).json("Something went wrong when trying to log in");
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to login",
+    });
   }
 }
