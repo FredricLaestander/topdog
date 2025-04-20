@@ -23,7 +23,7 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
     const newTierList = new TierList({
       name: data.name,
       description: data.description,
-      userId,
+      user:userId,
       tiers: [
         {
           name: "S",
@@ -93,7 +93,7 @@ export async function getListById(req: Request, res: Response) {
       return;
     }
 
-    const list = await TierList.findById(req.params.id);
+    const list = await TierList.findById(req.params.id).populate("user");
 
     if (!list) {
       res.status(404).json("The list was not found");
