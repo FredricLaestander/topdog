@@ -199,7 +199,7 @@ curl -X GET https://top-dog-psi.vercel.app/lists?limit=5
     "_id": "tierListId",
     "name": "My Tier List",
     "tiers": [...],
-    "userId": "userId",
+    "user": {username: exampleUser, _id: exampleId},
     "createdAt": "2025-03-28T12:00:00.000Z",
     "updatedAt": "2025-03-28T12:00:00.000Z"
   }
@@ -231,7 +231,7 @@ curl -X GET https://top-dog-psi.vercel.app/lists/tierListId
   "_id": "tierListId",
   "name": "My Tier List",
   "tiers": [...],
-  "userId": "userId",
+  "user": {username: exampleUser, _id: exampleId},
   "createdAt": "2025-03-28T12:00:00.000Z",
   "updatedAt": "2025-03-28T12:00:00.000Z"
 }
@@ -278,7 +278,7 @@ curl -X PUT https://https://top-dog-psi.vercel.app/lists/tierListId \
   "_id": "tierListId",
   "name": "Updated Tier List Name",
   "tiers": [...],
-  "userId": "userId",
+  "user": {username: exampleUser, _id: exampleId},
   "createdAt": "2025-03-28T12:00:00.000Z",
   "updatedAt": "2025-03-28T12:00:00.000Z"
 }

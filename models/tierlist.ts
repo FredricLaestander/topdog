@@ -11,7 +11,7 @@ const tierListSchema = new Schema(
       type: String,
     },
     tiers: [tierSchema],
-    userId: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

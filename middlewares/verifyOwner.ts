@@ -25,7 +25,7 @@ export async function verifyOwner(
       return;
     }
 
-    if (req.userId !== list.userId.toString()) {
+    if (req.userId !== list.user.toString()) {
       res.status(403).json("Missing access to perform this action");
       return;
     }
