@@ -10,6 +10,7 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
 
     const createTierListSchema = z.object({
       name: z.string().min(1).max(30),
+      description: z.string().optional()
     });
 
     const { success, data, error } = createTierListSchema.safeParse(req.body);
@@ -21,6 +22,7 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
 
     const newTierList = new TierList({
       name: data.name,
+      description: data.description,
       userId,
       tiers: [
         {
@@ -114,6 +116,7 @@ export async function updateList(req: AuthenticatedRequest, res: Response) {
 
     const updateTierListSchema = z.object({
       name: z.string().min(1).max(30),
+      description: z.string().optional(),
     });
 
     const { success, data, error } = updateTierListSchema.safeParse(req.body);
@@ -127,6 +130,7 @@ export async function updateList(req: AuthenticatedRequest, res: Response) {
       req.params.id,
       {
         name: data.name,
+        description: data.description,
       },
       { new: true }
     );
