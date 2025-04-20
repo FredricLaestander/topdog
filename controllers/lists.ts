@@ -27,27 +27,27 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
       tiers: [
         {
           name: "S",
-          color: "#e68683",
+          color: "#f87171",
           order: 1,
         },
         {
           name: "A",
-          color: "#efc189",
+          color: "#fb923c",
           order: 2,
         },
         {
           name: "B",
-          color: "#f5df8d",
+          color: "#FBBF24",
           order: 3,
         },
         {
           name: "C",
-          color: "#fcfe92",
+          color: "#facc15",
           order: 4,
         },
         {
           name: "D",
-          color: "#cffc90",
+          color: "#4ade80",
           order: 5,
         },
       ],
