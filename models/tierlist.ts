@@ -7,6 +7,9 @@ const tierListSchema = new Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+    },
     tiers: [tierSchema],
     userId: {
       type: Schema.Types.ObjectId,
