@@ -10,7 +10,7 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
 
     const createTierListSchema = z.object({
       name: z.string().min(1).max(30),
-      description: z.string().optional()
+      description: z.string().optional(),
     });
 
     const { success, data, error } = createTierListSchema.safeParse(req.body);
@@ -23,7 +23,7 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
     const newTierList = new TierList({
       name: data.name,
       description: data.description,
-      user:userId,
+      user: userId,
       tiers: [
         {
           name: "S",
@@ -55,10 +55,14 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
 
     await newTierList.save();
 
-    res.status(201).json(`List: ${newTierList.name} created`);
+    res.status(201).json({ listId: newTierList._id });
   } catch (error) {
     console.log(error);
-    res.status(500).json("Something went wrong when trying to create a list");
+    res
+      .status(500)
+      .json({
+        errorMessage: "Something went wrong when trying to create a list",
+      });
   }
 }
 

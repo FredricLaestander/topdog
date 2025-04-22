@@ -13,7 +13,7 @@ export async function verifyToken(
   const accessToken = authorizationHeader?.split(" ")[1];
 
   if (!accessToken) {
-    res.status(401).json("Could not find access token");
+    res.status(401).json({ errorMessage: "Could not find access token" });
     return;
   }
 
@@ -30,7 +30,7 @@ export async function verifyToken(
     const { success, data } = accessTokenSchema.safeParse(verifiedAccessToken);
 
     if (!success || !(await User.exists({ _id: data.userId }))) {
-      res.status(401).json("Unauthenticated action");
+      res.status(401).json({ errorMessage: "Unauthenticated action" });
       return;
     }
 
@@ -38,6 +38,6 @@ export async function verifyToken(
     next();
   } catch (error) {
     console.log(error);
-    res.status(500).json("Could not authenticate user");
+    res.status(500).json({ errorMessage: "Could not authenticate user" });
   }
 }
