@@ -58,11 +58,9 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
     res.status(201).json({ listId: newTierList._id });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({
-        errorMessage: "Something went wrong when trying to create a list",
-      });
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to create a list",
+    });
   }
 }
 
@@ -86,35 +84,45 @@ export async function getAllLists(req: Request, res: Response) {
     res.status(200).json(lists);
   } catch (error) {
     console.log(error);
-    res.status(500).json("Something went wrong when trying to show all lists");
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to show all lists",
+    });
   }
 }
 
 export async function getListById(req: Request, res: Response) {
   try {
     if (!Types.ObjectId.isValid(req.params.id)) {
-      res.status(400).json("Id is not valid");
+      res.status(400).json({
+        errorMessage: "Id is not valid",
+      });
       return;
     }
 
     const list = await TierList.findById(req.params.id).populate("user");
 
     if (!list) {
-      res.status(404).json("The list was not found");
+      res.status(404).json({
+        errorMessage: "The list was not found",
+      });
       return;
     }
 
     res.status(200).json(list);
   } catch (error) {
     console.log(error);
-    res.status(500).json("Something went wrong when trying to open a list");
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to open a list",
+    });
   }
 }
 
 export async function updateList(req: AuthenticatedRequest, res: Response) {
   try {
     if (!Types.ObjectId.isValid(req.params.id)) {
-      res.status(400).json("Id is not valid");
+      res.status(400).json({
+        errorMessage: "Id is not valid",
+      });
       return;
     }
 
@@ -142,14 +150,18 @@ export async function updateList(req: AuthenticatedRequest, res: Response) {
     res.status(200).json(updateTierList);
   } catch (error) {
     console.log(error);
-    res.status(500).json("Something went wrong when trying to open a list");
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to open a list",
+    });
   }
 }
 
 export async function deleteList(req: AuthenticatedRequest, res: Response) {
   try {
     if (!Types.ObjectId.isValid(req.params.id)) {
-      res.status(400).json("Id is not valid");
+      res.status(400).json({
+        errorMessage: "List id is not valid",
+      });
       return;
     }
 
@@ -159,6 +171,8 @@ export async function deleteList(req: AuthenticatedRequest, res: Response) {
       .json(`Tier list '${deletedList?.name}' was successfully deleted.`);
   } catch (error) {
     console.log(error);
-    res.status(500).json("Something went wrong when trying to delete a list");
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to delete a list",
+    });
   }
 }

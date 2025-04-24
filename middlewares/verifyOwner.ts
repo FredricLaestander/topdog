@@ -14,27 +14,33 @@ export async function verifyOwner(
     }
 
     if (!Types.ObjectId.isValid(req.params.id)) {
-      res.status(400).json("Id is not valid");
+      res.status(400).json({
+        errorMessage: "List id is not valid",
+      });
       return;
     }
 
     const list = await TierList.findById(req.params.id);
 
     if (!list) {
-      res.status(404).json("The list was not found");
+      res.status(404).json({
+        errorMessage: "List id is not valid",
+      });
       return;
     }
 
     if (req.userId !== list.user.toString()) {
-      res.status(403).json("Missing access to perform this action");
+      res.status(403).json({
+        errorMessage: "Missing access to perform this action",
+      });
       return;
     }
 
     next();
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json("Something went wrong when trying to verify the owner");
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to verify the owner",
+    });
   }
 }
