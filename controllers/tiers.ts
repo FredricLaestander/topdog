@@ -20,13 +20,17 @@ export async function createTier(req: AuthenticatedRequest, res: Response) {
     }
 
     if (!Types.ObjectId.isValid(req.params.id)) {
-      res.status(400).json("Id is not valid");
+      res.status(400).json({
+        errorMessage: "List id is not valid",
+      });
       return;
     }
     const list = await TierList.findById(req.params.id);
 
     if (!list) {
-      res.status(404).json("The list was not found");
+      res.status(404).json({
+        errorMessage: "The list was not found",
+      });
       return;
     }
 
@@ -48,6 +52,8 @@ export async function createTier(req: AuthenticatedRequest, res: Response) {
     res.status(201).json(`Tier: ${data.name} created`);
   } catch (error) {
     console.log(error);
-    res.status(500).json("Something went wrong when trying to create a tier");
+    res.status(500).json({
+      errorMessage: "Something went wrong when trying to create a tier",
+    });
   }
 }
