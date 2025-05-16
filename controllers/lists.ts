@@ -1,15 +1,15 @@
-import { Request, Response } from "express";
-import { z } from "zod";
-import { TierList } from "../models/tierlist";
-import { AuthenticatedRequest } from "../types";
-import { Types } from "mongoose";
+import { Request, Response } from 'express';
+import { z } from 'zod';
+import { TierList } from '../models/tierlist';
+import { AuthenticatedRequest } from '../types';
+import { Types } from 'mongoose';
 
 export async function createList(req: AuthenticatedRequest, res: Response) {
   try {
     const userId = req.userId!;
 
     const createTierListSchema = z.object({
-      name: z.string().min(1).max(30),
+      name: z.string().min(1).max(255),
       description: z.string().optional(),
     });
 
@@ -26,28 +26,28 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
       user: userId,
       tiers: [
         {
-          name: "S",
-          color: "#f87171",
+          name: 'S',
+          color: '#f87171',
           order: 1,
         },
         {
-          name: "A",
-          color: "#fb923c",
+          name: 'A',
+          color: '#fb923c',
           order: 2,
         },
         {
-          name: "B",
-          color: "#FBBF24",
+          name: 'B',
+          color: '#FBBF24',
           order: 3,
         },
         {
-          name: "C",
-          color: "#facc15",
+          name: 'C',
+          color: '#facc15',
           order: 4,
         },
         {
-          name: "D",
-          color: "#4ade80",
+          name: 'D',
+          color: '#4ade80',
           order: 5,
         },
       ],
@@ -59,7 +59,7 @@ export async function createList(req: AuthenticatedRequest, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      errorMessage: "Something went wrong when trying to create a list",
+      errorMessage: 'Something went wrong when trying to create a list',
     });
   }
 }
@@ -85,7 +85,7 @@ export async function getAllLists(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      errorMessage: "Something went wrong when trying to show all lists",
+      errorMessage: 'Something went wrong when trying to show all lists',
     });
   }
 }
@@ -94,16 +94,16 @@ export async function getListById(req: Request, res: Response) {
   try {
     if (!Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({
-        errorMessage: "Id is not valid",
+        errorMessage: 'Id is not valid',
       });
       return;
     }
 
-    const list = await TierList.findById(req.params.id).populate("user");
+    const list = await TierList.findById(req.params.id).populate('user');
 
     if (!list) {
       res.status(404).json({
-        errorMessage: "The list was not found",
+        errorMessage: 'The list was not found',
       });
       return;
     }
@@ -112,7 +112,7 @@ export async function getListById(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      errorMessage: "Something went wrong when trying to open a list",
+      errorMessage: 'Something went wrong when trying to open a list',
     });
   }
 }
@@ -121,13 +121,13 @@ export async function updateList(req: AuthenticatedRequest, res: Response) {
   try {
     if (!Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({
-        errorMessage: "Id is not valid",
+        errorMessage: 'Id is not valid',
       });
       return;
     }
 
     const updateTierListSchema = z.object({
-      name: z.string().min(1).max(30),
+      name: z.string().min(1).max(255),
       description: z.string().optional(),
     });
 
@@ -151,7 +151,7 @@ export async function updateList(req: AuthenticatedRequest, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      errorMessage: "Something went wrong when trying to open a list",
+      errorMessage: 'Something went wrong when trying to open a list',
     });
   }
 }
@@ -160,7 +160,7 @@ export async function deleteList(req: AuthenticatedRequest, res: Response) {
   try {
     if (!Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({
-        errorMessage: "List id is not valid",
+        errorMessage: 'List id is not valid',
       });
       return;
     }
@@ -172,7 +172,7 @@ export async function deleteList(req: AuthenticatedRequest, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      errorMessage: "Something went wrong when trying to delete a list",
+      errorMessage: 'Something went wrong when trying to delete a list',
     });
   }
 }
